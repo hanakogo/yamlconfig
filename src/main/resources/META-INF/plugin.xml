@@ -11,8 +11,10 @@
 
     <extensions defaultExtensionNs="com.intellij">
         <typedHandler implementation="org.liamjwang.AutoPopupTypedHandler"/>
-        <completion.contributor language="any" implementationClass="org.liamjwang.FilePathCompletionContributor"/>
-        <completion.confidence language="any" implementationClass="org.liamjwang.FilePathCompletionConfidence"
+      <completion.contributor language="any"
+        implementationClass="org.liamjwang.YamlKeyCompletionContributor"/>
+      <completion.confidence language="any"
+        implementationClass="org.liamjwang.YamlKeyCompletionConfidence"
                                order="first"/>
     </extensions>
 

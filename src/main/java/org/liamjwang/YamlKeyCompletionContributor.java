@@ -13,7 +13,7 @@ import org.jetbrains.annotations.NotNull;
 import org.liamjwang.YamlKeyScanner.ConfigEntry;
 
 
-public class FilePathCompletionContributor extends CompletionContributor {
+public class YamlKeyCompletionContributor extends CompletionContributor {
 
     private Map<Project, YamlKeyScanner> configManagerMap = new HashMap<>();
 
