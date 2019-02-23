@@ -4,28 +4,40 @@ import com.intellij.codeInsight.completion.CompletionContributor;
 import com.intellij.codeInsight.completion.CompletionParameters;
 import com.intellij.codeInsight.completion.CompletionResultSet;
 import com.intellij.codeInsight.lookup.LookupElementBuilder;
-import com.intellij.openapi.vfs.VirtualFile;
+import com.intellij.icons.AllIcons.Nodes;
+import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiElement;
+import java.util.HashMap;
+import java.util.Map;
 import org.jetbrains.annotations.NotNull;
+import org.liamjwang.YamlKeyScanner.ConfigEntry;
 
 
 public class FilePathCompletionContributor extends CompletionContributor {
 
+    private Map<Project, YamlKeyScanner> configManagerMap = new HashMap<>();
+
     @Override
     public void fillCompletionVariants(@NotNull CompletionParameters parameters, @NotNull CompletionResultSet result) {
         if (isAStringLiteral(parameters.getPosition())) {
-            VirtualFile parentDirectoryOfCurrentFile = parameters.getOriginalFile()
-                                                                 .getVirtualFile()
-                                                                 .getParent();
 
             String queryString = getQueryString(parameters);
-            String parentDirectoryOfCurrentFileStr = parentDirectoryOfCurrentFile == null ? "" :
-                    parentDirectoryOfCurrentFile.getCanonicalPath();
+            Project project = parameters.getEditor().getProject();
 
+            if (project == null) {
+                return;
+            }
 
-            FilePathMatcher.aggregateFilePaths(parentDirectoryOfCurrentFileStr, queryString)
-                           .forEach(path -> result.withPrefixMatcher(queryString)
-                                                  .addElement(LookupElementBuilder.create(path)));
+            if (!configManagerMap.containsKey(project)) {
+                configManagerMap.put(project, new YamlKeyScanner(project.getBasePath()));
+            }
+
+            YamlKeyScanner thisYamlConfig = configManagerMap.get(project);
+
+            for (ConfigEntry path : thisYamlConfig.getYamlConfigKeys()) {
+                LookupElementBuilder element = LookupElementBuilder.create(path.path).withIcon(Nodes.DataTables).withTypeText(path.item.toString());
+                result.withPrefixMatcher(queryString).addElement(element);
+            }
         }
     }
 
