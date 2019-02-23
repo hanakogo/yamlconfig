@@ -17,5 +17,5 @@ cache:
 notifications:
 - provider: Email
   to:
-  - k.veneetreddy@gmail.com
+  - 5054950+liamjwang@users.noreply.github.com
   on_build_failure: true
