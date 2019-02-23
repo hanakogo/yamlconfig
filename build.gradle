@@ -4,7 +4,7 @@ plugins {
 }
 
 group 'org.liamjwang.yamlconfig-idea'
-version '0.0.1'
+version '0.0.2'
 
 sourceCompatibility = 1.8
 
@@ -21,10 +21,4 @@ dependencies {
 intellij {
     version '2018.2.4'
     updateSinceUntilBuild false
-}
-
-publishPlugin {
-    username intellijPublishUsername
-    password intellijPublishPassword
-    intellij.publish.channel 'alpha'
 }
