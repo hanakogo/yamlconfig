@@ -1,6 +1,6 @@
 <idea-plugin>
     <id>org.liamjwang.yamlconfig-idea.yamlconfig-idea</id>
-    <name>Yaml-config Idea</name>
+  <name>Yaml-Config Autocomplete</name>
     <vendor email="">Liam Wang</vendor>
 
     <description><![CDATA[
