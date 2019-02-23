@@ -1,4 +1,4 @@
-package com.pinkfloyded;
+package org.liamjwang;
 
 import com.intellij.codeInsight.AutoPopupController;
 import com.intellij.codeInsight.editorActions.TypedHandlerDelegate;

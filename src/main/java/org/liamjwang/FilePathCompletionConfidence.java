@@ -1,4 +1,4 @@
-package com.pinkfloyded;
+package org.liamjwang;
 
 import com.intellij.codeInsight.completion.CompletionConfidence;
 import com.intellij.psi.PsiElement;

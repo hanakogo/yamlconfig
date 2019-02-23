@@ -1,4 +1,4 @@
-package com.pinkfloyded;
+package org.liamjwang;
 
 import com.intellij.openapi.diagnostic.Logger;
 import org.apache.commons.io.FileUtils;
@@ -11,7 +11,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.UUID;
 
-import static com.pinkfloyded.FilePathMatcher.*;
+import static org.liamjwang.FilePathMatcher.*;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertThat;

@@ -1,4 +1,4 @@
-package com.pinkfloyded;
+package org.liamjwang;
 
 import com.google.common.io.Files;
 import com.intellij.codeInsight.lookup.LookupElement;

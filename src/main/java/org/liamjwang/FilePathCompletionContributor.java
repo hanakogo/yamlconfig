@@ -1,4 +1,4 @@
-package com.pinkfloyded;
+package org.liamjwang;
 
 import com.intellij.codeInsight.completion.CompletionContributor;
 import com.intellij.codeInsight.completion.CompletionParameters;
