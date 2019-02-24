@@ -35,9 +35,10 @@ public class YamlKeyCompletionContributor extends CompletionContributor {
             YamlKeyScanner thisYamlConfig = configManagerMap.get(project);
 
             for (ConfigEntry path : thisYamlConfig.getYamlConfigKeys()) {
-                if (!queryString.startsWith(path.path.substring(0, 1))) {
-                    continue;
-                }
+//                if (!queryString.startsWith(path.path.substring(0, 1))) {
+//                    continue;
+//                }
+                // TODO: Figure out a better way to set relevancy
                 LookupElementBuilder element = LookupElementBuilder.create(path.path).withIcon(Nodes.DataTables).withTypeText(path.item.toString()).bold();
                 result.withPrefixMatcher(queryString).addElement(element);
             }
