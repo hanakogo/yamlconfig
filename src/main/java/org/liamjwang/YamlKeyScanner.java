@@ -10,11 +10,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
-import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Set;
 import java.util.stream.Collectors;
 import org.apache.commons.io.FilenameUtils;
 import org.jetbrains.annotations.NotNull;
@@ -24,7 +25,7 @@ public class YamlKeyScanner {
 
     public static final char PATH_SEPARATOR = '/';
 
-    private Map<String, Set<ConfigEntry>> possibleKeysMap = new HashMap<>(); // maps paths to possible keys
+    private Map<String, List<ConfigEntry>> possibleKeysMap = new HashMap<>(); // maps paths to possible keys
 
     public YamlKeyScanner(String rootPath) {
         try {
@@ -54,8 +55,41 @@ public class YamlKeyScanner {
         });
     }
 
-    public Set<ConfigEntry> getYamlConfigKeys() {
-        return possibleKeysMap.keySet().stream().flatMap(k -> possibleKeysMap.get(k).stream()).collect(Collectors.toSet());
+    private List<ConfigEntry> expandSet(List<ConfigEntry> original) {
+        List<ConfigEntry> expanded = new ArrayList<>();
+        for (ConfigEntry configEntry : original) {
+            expanded.add(configEntry);
+            String newPath = configEntry.path;
+            int idx = newPath.indexOf("/");
+            while (idx > 0) {
+                String newItem = newPath.substring(0, idx) + (configEntry.item == "" ? "" : ": " + configEntry.item.toString());
+                expanded.add(new ConfigEntry(newPath.substring(idx + 1), newItem));
+                idx = newPath.indexOf("/", idx + 1);
+            }
+        }
+        return expanded;
+    }
+
+    public Collection<ConfigEntry> getYamlConfigKeys() {
+        return combineKeys(expandSet(flattenMap()));
+    }
+
+    public Collection<ConfigEntry> combineKeys(List<ConfigEntry> entries) {
+        Map<String, ConfigEntry> result = new HashMap<>();
+        entries.forEach(e -> {
+            if (!result.containsKey(e.path)) {
+                result.put(e.path, e);
+            } else {
+                result.get(e.path).item += " " + e.item;
+            }
+        });
+
+        return result.values();
+    }
+
+
+    private List<ConfigEntry> flattenMap() {
+        return possibleKeysMap.keySet().stream().flatMap(k -> possibleKeysMap.get(k).stream()).collect(Collectors.toList());
     }
 
 
@@ -66,8 +100,8 @@ public class YamlKeyScanner {
         if (!FilenameUtils.isExtension(file.getName(), "yaml")) {
             return;
         }
-        possibleKeysMap.put(file.getPath(), new HashSet<>()); // Clear or create a new set (delete old values)
-        Set<ConfigEntry> possibleKeySet = possibleKeysMap.get(file.getPath());
+        possibleKeysMap.put(file.getPath(), new ArrayList<>()); // Clear or create a new set (delete old values)
+        List<ConfigEntry> possibleKeySet = possibleKeysMap.get(file.getPath());
         Yaml yaml = new Yaml();
         try {
             InputStream input = file.getInputStream();
@@ -79,7 +113,7 @@ public class YamlKeyScanner {
         }
     }
 
-    private void traverseKeyMap(String baseString, Map<String, Object> map, Set<ConfigEntry> possibleKeySet) {
+    private void traverseKeyMap(String baseString, Map<String, Object> map, List<ConfigEntry> possibleKeySet) {
         try {
             for (Entry<String, Object> entry : map.entrySet()) {
                 String str = entry.getKey();
@@ -90,7 +124,7 @@ public class YamlKeyScanner {
                     traverseKeyMap(normalizedKey, (Map<String, Object>) obj, possibleKeySet);
                 } else if (obj instanceof Number || obj instanceof String) {
                     String normalizedKey = normalizePathStandard(baseString + PATH_SEPARATOR + str);
-                    possibleKeySet.add(new ConfigEntry(normalizedKey, obj));
+                    possibleKeySet.add(new ConfigEntry(normalizedKey, obj.toString()));
                 } else {
                     System.out.println("[Yamlconfig-Idea]: YAML contains object of unknown type: " + obj.getClass());
                 }
@@ -134,11 +168,20 @@ public class YamlKeyScanner {
     public class ConfigEntry {
 
         public String path;
-        public Object item;
+        public String item;
 
-        public ConfigEntry(String path, Object item) {
+        public ConfigEntry(String path, String item) {
             this.path = path;
             this.item = item;
+        }
+
+        @Override
+        public boolean equals(Object other) {
+            if (!(other instanceof ConfigEntry)) {
+                return false;
+            }
+            ConfigEntry otherConfig = (ConfigEntry) other;
+            return path.equals(otherConfig.path) && item.equals(otherConfig.item);
         }
     }
 }
