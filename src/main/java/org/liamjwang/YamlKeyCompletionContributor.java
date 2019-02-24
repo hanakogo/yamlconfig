@@ -35,7 +35,10 @@ public class YamlKeyCompletionContributor extends CompletionContributor {
             YamlKeyScanner thisYamlConfig = configManagerMap.get(project);
 
             for (ConfigEntry path : thisYamlConfig.getYamlConfigKeys()) {
-                LookupElementBuilder element = LookupElementBuilder.create(path.path).withIcon(Nodes.DataTables).withTypeText(path.item.toString());
+                if (!queryString.startsWith(path.path.substring(0, 1))) {
+                    continue;
+                }
+                LookupElementBuilder element = LookupElementBuilder.create(path.path).withIcon(Nodes.DataTables).withTypeText(path.item.toString()).bold();
                 result.withPrefixMatcher(queryString).addElement(element);
             }
         }

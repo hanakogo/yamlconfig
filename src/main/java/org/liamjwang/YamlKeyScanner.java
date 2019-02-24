@@ -80,7 +80,9 @@ public class YamlKeyScanner {
             if (!result.containsKey(e.path)) {
                 result.put(e.path, e);
             } else {
-                result.get(e.path).item += " " + e.item;
+                ConfigEntry other = result.get(e.path);
+                String newItem = other.item + (e.item.equals("") || other.item.equals("") ? "" : " | ") + e.item;
+                result.put(e.path, new ConfigEntry(e.path, newItem));
             }
         });
 
