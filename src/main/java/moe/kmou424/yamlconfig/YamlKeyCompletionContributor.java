@@ -1,4 +1,4 @@
-package org.liamjwang;
+package moe.kmou424.yamlconfig;
 
 import com.intellij.codeInsight.completion.CompletionContributor;
 import com.intellij.codeInsight.completion.CompletionParameters;
@@ -10,7 +10,7 @@ import com.intellij.psi.PsiElement;
 import java.util.HashMap;
 import java.util.Map;
 import org.jetbrains.annotations.NotNull;
-import org.liamjwang.YamlKeyScanner.ConfigEntry;
+import moe.kmou424.yamlconfig.YamlKeyScanner.ConfigEntry;
 
 
 public class YamlKeyCompletionContributor extends CompletionContributor {

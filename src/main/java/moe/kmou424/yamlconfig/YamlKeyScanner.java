@@ -1,4 +1,4 @@
-package org.liamjwang;
+package moe.kmou424.yamlconfig;
 
 import com.intellij.openapi.vfs.LocalFileSystem;
 import com.intellij.openapi.vfs.VirtualFile;
@@ -77,6 +77,7 @@ public class YamlKeyScanner {
     public Collection<ConfigEntry> combineKeys(List<ConfigEntry> entries) {
         Map<String, ConfigEntry> result = new HashMap<>();
         entries.forEach(e -> {
+            e.path = e.path.replaceAll("/", ".");
             if (!result.containsKey(e.path)) {
                 result.put(e.path, e);
             } else {

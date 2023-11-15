@@ -3,8 +3,8 @@ plugins {
     id 'org.jetbrains.intellij' version '0.3.5'
 }
 
-group 'org.liamjwang.yamlconfig-idea'
-version '0.0.3'
+group 'moe.kmou424.yamlconfig'
+version '0.0.4'
 
 sourceCompatibility = 1.8
 

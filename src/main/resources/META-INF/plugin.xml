@@ -1,20 +1,20 @@
 <idea-plugin>
-    <id>org.liamjwang.yamlconfig-idea.yamlconfig-idea</id>
+    <id>moe.kmou424.yamlconfig</id>
   <name>Yaml-Config Autocomplete</name>
-    <vendor email="">Liam Wang</vendor>
+    <vendor email="">Liam Wang (modified by kmou424)</vendor>
 
     <description><![CDATA[
-    <p>Auto-completes yaml configuration keys for the yaml configuration system.</p>
+    <p>Auto-completes yaml configuration keys for the yaml configuration system. Auto split by dot.</p>
     ]]></description>
     <idea-version since-build="143"/>
     <depends>com.intellij.modules.lang</depends>
 
     <extensions defaultExtensionNs="com.intellij">
-        <typedHandler implementation="org.liamjwang.AutoPopupTypedHandler"/>
+        <typedHandler implementation="moe.kmou424.yamlconfig.AutoPopupTypedHandler"/>
       <completion.contributor language="any"
-        implementationClass="org.liamjwang.YamlKeyCompletionContributor"/>
+        implementationClass="moe.kmou424.yamlconfig.YamlKeyCompletionContributor"/>
       <completion.confidence language="any"
-        implementationClass="org.liamjwang.YamlKeyCompletionConfidence"
+        implementationClass="moe.kmou424.yamlconfig.YamlKeyCompletionConfidence"
                                order="first"/>
     </extensions>
 

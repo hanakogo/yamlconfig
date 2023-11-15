@@ -1,4 +1,4 @@
-package org.liamjwang;
+package moe.kmou424.yamlconfig;
 
 import com.intellij.codeInsight.editorActions.TypedHandlerDelegate;
 import com.intellij.openapi.editor.Editor;

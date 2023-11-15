@@ -1,4 +1,4 @@
-package org.liamjwang;
+package moe.kmou424.yamlconfig;
 
 import com.intellij.codeInsight.completion.CompletionConfidence;
 import com.intellij.psi.PsiElement;
